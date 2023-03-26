@@ -156,7 +156,7 @@ END;
 CREATE TABLE Product_Size
 (
   SizeID NUMBER NOT NULL,
-  Size_Value VARCHAR2(100) NOT NULL,
+  Product_Size VARCHAR2(100) NOT NULL,
   PRIMARY KEY (SizeID)
 );
 
@@ -223,8 +223,8 @@ BEGIN
 END;
 /
 
---Accounts_Receivable
-CREATE TABLE Accounts_Receivable
+--Account_Receivable
+CREATE TABLE Account_Receivable
 (
   PayID NUMBER NOT NULL,
   Date_Due DATE NOT NULL,
@@ -237,26 +237,26 @@ CREATE TABLE Accounts_Receivable
   FOREIGN KEY (TID) REFERENCES Sales_Transaction(TID)
 );
 
-CREATE SEQUENCE Accounts_Receivable_SEQ INCREMENT BY 1 START WITH 1 NOCACHE;
-CREATE OR REPLACE TRIGGER INSERT_Accounts_Receivable_SEQ
-BEFORE INSERT ON Accounts_Receivable
+CREATE SEQUENCE Account_Receivable_SEQ INCREMENT BY 1 START WITH 1 NOCACHE;
+CREATE OR REPLACE TRIGGER INSERT_Account_Receivable_SEQ
+BEFORE INSERT ON Account_Receivable
 FOR EACH ROW
 DECLARE
 new_id number;
 BEGIN
-SELECT Accounts_Receivable_SEQ.nextval INTO new_id FROM dual;
+SELECT Account_Receivable_SEQ.nextval INTO new_id FROM dual;
 :new.PayID := new_id;
 END;
 /
-CREATE OR REPLACE TRIGGER  INSERT_Accounts_Receivable_Date
-BEFORE INSERT ON Accounts_Receivable
+CREATE OR REPLACE TRIGGER  INSERT_Account_Receivable_Date
+BEFORE INSERT ON Account_Receivable
 FOR EACH ROW
 BEGIN
 :NEW.Date_Recorded := SYSDATE;
 END;
 /
-CREATE OR REPLACE TRIGGER  UPDATE_Accounts_Receivable_Date
-BEFORE UPDATE ON Accounts_Receivable
+CREATE OR REPLACE TRIGGER  UPDATE_Account_Receivable_Date
+BEFORE UPDATE ON Account_Receivable
 FOR EACH ROW
 BEGIN
 :NEW.Date_Updated := SYSDATE;
@@ -388,7 +388,7 @@ CREATE TABLE Price
   Price NUMBER NOT NULL,
   Start_Date DATE NOT NULL,
   Stop_Date DATE,
-  Comments VARCHAR2(100),
+  Change_Comm VARCHAR2(100),
   InventoryID NUMBER NOT NULL,
   PRIMARY KEY (PriceID),
   FOREIGN KEY (InventoryID) REFERENCES Inventory(InventoryID)
